@@ -35,7 +35,9 @@ class LintPlugin(plugin.PyangPlugin):
         # If some other convention is used, the derived plugin can
         # define its own checks.
         self.modulename_prefixes = []
-
+      
+        self.max_line_len = None        
+                
     def add_opts(self, optparser):
         optlist = [
             optparse.make_option("--lint",
@@ -70,6 +72,8 @@ class LintPlugin(plugin.PyangPlugin):
         ctx.canonical = True
         ctx.max_identifier_len = 64
         ctx.implicit_errors = False
+        
+        ctx.max_line_len = self.max_line_len
 
         # always add additional prefixes given on the command line
         self.namespace_prefixes.extend(ctx.opts.namespace_prefixes)
@@ -172,6 +176,8 @@ _required_substatements = {
     }
 
 _recommended_substatements = {
+    'must':(('description',), "RFC 6087: 4.12"),
+    'when':(('description',), "RFC 6087: 4.12"),
     'enum':(('description',), "RFC 6087: 4.10,4.12"),
     'bit':(('description',), "RFC 6087: 4.10,4.12"),
     }

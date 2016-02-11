@@ -1,4 +1,4 @@
-"""IETF usage guidelines plugin
+"""BBF usage guidelines plugin
 See RFC 6087
 """
 
@@ -12,26 +12,26 @@ from pyang.error import err_add
 from pyang.plugins import lint
 
 def pyang_plugin_init():
-    plugin.register_plugin(IETFPlugin())
+    plugin.register_plugin(BBFPlugin())
 
-class IETFPlugin(lint.LintPlugin):
+class BBFPlugin(lint.LintPlugin):
     def __init__(self):
         lint.LintPlugin.__init__(self)
-        self.namespace_prefixes = ['urn:ietf:params:xml:ns:yang:']
-        self.modulename_prefixes = ['ietf', 'iana']
-        self.max_line_len = None
+        self.namespace_prefixes = ['urn:broadband-forum-org:yang:']
+        self.modulename_prefixes = ['bbf']
+        self.max_line_len = 70
 
     def add_opts(self, optparser):
         optlist = [
-            optparse.make_option("--ietf",
-                                 dest="ietf",
+            optparse.make_option("--bbf",
+                                 dest="bbf",
                                  action="store_true",
                                  help="Validate the module(s) according to " \
-                                 "IETF rules."),
+                                 "IETF rules and BBF best practices."),
             ]
         optparser.add_options(optlist)
 
     def setup_ctx(self, ctx):
-        if not ctx.opts.ietf:
+        if not ctx.opts.bbf:
             return
         self._setup_ctx(ctx)
